@@ -1,22 +1,21 @@
-import re
-
-from discord.ext import commands
-import discord
 import time
 
+import discord
+from discord.ext import commands
+
 from src.config import BOT_CONFIG
-from src.server.utils import is_server_empty
-from src.server.utils import get_player_messages
-from src.server.utils import get_logs
-from src.server.utils import get_tps, send_message
-from src.server import run_mcrcon_command
-from src.logger import Logger
 from src.config import MCRCON_CONFIG
+from src.logger import Logger
+from src.server import run_mcrcon_command
+from src.server.utils import get_logs
+from src.server.utils import get_player_messages
+from src.server.utils import get_tps, send_message
+from src.server.utils import is_server_empty
 
 intents = discord.Intents.default()
 intents.message_content = True
 
-bot = commands.Bot(command_prefix="!", intents=intents, help_command=None)
+bot = commands.Bot(command_prefix="$", intents=intents, help_command=None)
 
 from src.server import Server
 from src.config import SERVER_CONFIG
