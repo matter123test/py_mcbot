@@ -136,7 +136,7 @@ async def help(ctx: discord.ext.commands.Context):
     
     Admin commands:
     1) forcestop    - stops the server even if there are players
-    2) exec         - executes a command in the server example: !exec ban user
+    2) exec         - executes a command in the server example: $exec ban user
     
     ```"""
 

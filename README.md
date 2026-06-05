@@ -1,6 +1,8 @@
 ## py_mcbot
 This is a simple discord bot to control a minecraft server
 
+![](icon.png "py_mcbot icon")
+
 ## Installation
 If you don't have installed uv already
 ``pip install uv``
@@ -10,8 +12,6 @@ Clone the repo
 ``git clone https://github.com/matter123test/py_mcbot``
 
 ``uv venv``
-
-``uv run python run.py``
 
 ## Create papermc server
 ``uv run python setup/setup.py``
@@ -68,3 +68,8 @@ For cracked player support set online mode to false
 ```properties
 online-mode=false
 ```
+
+## Run
+Run the bot:
+
+``uv run python run.py``
