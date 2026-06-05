@@ -5,5 +5,8 @@ requires-python = ">=3.14"
 dependencies = [
     "colorama>=0.4.6",
     "discord-py==2.7.1",
+    "inquirerpy>=0.3.4",
     "mcrcon==0.7.0",
+    "requests>=2.34.2",
+    "rich>=15.0.0",
 ]

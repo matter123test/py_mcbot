@@ -2,7 +2,23 @@
 This is a simple discord bot to control a minecraft server
 
 ## Installation
+If you don't have installed uv already
+``pip install uv``
+
+Clone the repo
+
+``git clone https://github.com/matter123test/py_mcbot``
+
 ``uv venv``
+
+``uv run python run.py``
+
+## Create papermc server
+``uv run python setup/setup.py``
+
+After running this command it will create a folder `server`
+
+Make sure to accept the Eula in `server/eula.txt`
 
 ## Configuration
 Create a folder name "config"
