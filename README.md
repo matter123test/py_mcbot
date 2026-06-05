@@ -62,6 +62,7 @@ Create a folder name "config"
 Inside the server folder modify the `server.properties`
 and set the values:
 ```properties
+enable-rcon=true
 rcon.password=1234
 rcon.port=25575
 ```
