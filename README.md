@@ -9,6 +9,8 @@ Clone the repo
 
 ``git clone https://github.com/matter123test/py_mcbot``
 
+``cd py_mcbot``
+
 ``uv venv``
 
 ``uv run python run.py``
