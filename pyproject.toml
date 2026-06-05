@@ -1,0 +1,9 @@
+[project]
+name = "mcbot"
+version = "0.0.1"
+requires-python = ">=3.14"
+dependencies = [
+    "colorama>=0.4.6",
+    "discord-py==2.7.1",
+    "mcrcon==0.7.0",
+]
