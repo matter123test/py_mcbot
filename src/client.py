@@ -38,41 +38,46 @@ async def on_message(message):
 
 @bot.command()
 async def start(ctx: discord.ext.commands.Context):
-    if server.is_running():
+    Logger.err(f"SERVER HAS JUST STARTED: {server.is_server_running}")
+
+    if server.is_server_running:
+        Logger.warn("Ignoring $start request")
         await ctx.reply("Server is already running!")
-    else:
-        Logger.log("Starting the server!")
-        await ctx.reply("Starting the server!")
-        server.start()
+        return
 
-        while not server.is_running():
-            time.sleep(MCRCON_CONFIG.secondsDelay)
+    Logger.log("Starting the server!")
+    await ctx.reply("Starting the server!")
+    server.start()
 
-        Logger.log("Server is now running!")
-        await ctx.reply("Server is now running!")
+    while not server.is_mcrcon_running():
+        time.sleep(MCRCON_CONFIG.secondsDelay)
+
+    Logger.log("Server is now running!")
+    await ctx.reply("Server is now running!")
 
 
 @bot.command()
 async def stop(ctx: discord.ext.commands.Context):
-    if server.is_running():
-        if not is_server_empty():
-            await ctx.reply("There are players in the server!")
-            return
-
-        await ctx.reply("Stopping the server!")
-        server.stop()
-
-        while server.is_running():
-            time.sleep(MCRCON_CONFIG.secondsDelay)
-
-        await ctx.reply("Server is now stopped!")
-    else:
+    if not server.is_server_running:
+        Logger.warn("Ignoring $stop request")
         await ctx.reply("Server is not running!")
+
+    if not is_server_empty():
+        await ctx.reply("There are players in the server!")
+        return
+
+    await ctx.reply("Stopping the server!")
+    server.stop()
+
+    while server.is_mcrcon_running():
+        time.sleep(MCRCON_CONFIG.secondsDelay)
+
+    await ctx.reply("Server is now stopped!")
 
 
 @bot.command()
 async def status(ctx: discord.ext.commands.Context):
-    if server.is_running():
+    if server.is_mcrcon_running():
         await ctx.reply(f"Server is up and running!")
     else:
         await ctx.reply(f"Server is not running!")
@@ -80,7 +85,7 @@ async def status(ctx: discord.ext.commands.Context):
 
 @bot.command()
 async def players(ctx: discord.ext.commands.Context):
-    if not server.is_running():
+    if not server.is_mcrcon_running():
         await ctx.send("Server is not running!")
     else:
         output = run_mcrcon_command("list")
@@ -89,7 +94,7 @@ async def players(ctx: discord.ext.commands.Context):
 
 @bot.command()
 async def tps(ctx: discord.ext.commands.Context):
-    if not server.is_running():
+    if not server.is_mcrcon_running():
         await ctx.send("Server is not running!")
     else:
         await ctx.send(get_tps())
@@ -97,7 +102,7 @@ async def tps(ctx: discord.ext.commands.Context):
 
 @bot.command()
 async def say(ctx: discord.ext.commands.Context):
-    if not server.is_running():
+    if not server.is_mcrcon_running():
         await ctx.send("Server is not running!")
     else:
         author = ctx.author.name
@@ -151,14 +156,14 @@ async def forcestop(ctx: discord.ext.commands.Context):
         await ctx.send("Unauthorized access")
         return
 
-    if not server.is_running():
+    if not server.is_mcrcon_running():
         await ctx.send("Server is not running!")
         return
 
     await ctx.reply("Stopping the server!")
     server.stop()
 
-    while server.is_running():
+    while server.is_mcrcon_running():
         time.sleep(MCRCON_CONFIG.secondsDelay)
 
     await ctx.reply("Server is now stopped!")
@@ -170,7 +175,7 @@ async def exec(ctx: discord.ext.commands.Context):
         await ctx.send("Unauthorized access")
         return
 
-    if not server.is_running():
+    if not server.is_mcrcon_running():
         await ctx.send("Server is not running!")
         return
 
