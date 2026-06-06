@@ -7,11 +7,12 @@ from src.logger import Logger
 intents = discord.Intents.default()
 intents.message_content = True
 
-bot = commands.Bot(command_prefix="$", intents=intents)
+bot = commands.Bot(command_prefix="$", intents=intents, help_command=None)
 
 
 async def load_extensions():
     cogs = [
+        "help",
         "admin_utils",
         "user_utils"
     ]
