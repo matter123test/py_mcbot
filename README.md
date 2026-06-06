@@ -88,3 +88,11 @@ online-mode=false
 Run the bot:
 
 ``uv run python run.py``
+
+
+## Backups
+Backups by default will be created at `backups`
+
+To create a backup:
+
+``uv run tools\backup.py``
