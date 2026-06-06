@@ -3,8 +3,8 @@ from collections import deque
 
 from mcrcon import MCRcon
 
-from src.config import SERVER_CONFIG
 from src.config import MCRCON_CONFIG
+from src.config import SERVER_CONFIG
 
 
 def run_mcrcon_command(command: str):

@@ -1,15 +1,14 @@
 import subprocess
 
-from mcrcon import MCRconException
-
+from src import config
 from src.config.parsers.server import ServerConfig
 from src.server.utils import run_mcrcon_command
 from src.logger import Logger
 
 
 class Server:
-    def __init__(self, config: ServerConfig):
-        self.config = config
+    def __init__(self, server_config: ServerConfig):
+        self.config = server_config
 
         self.process: subprocess.Popen | None = None
         self.is_server_running = False
@@ -30,7 +29,6 @@ class Server:
         """
         This checks if the server is active via MCRcon
         Only works correctly if the server is already running
-        Should not be used multiple times
         """
         try:
             run_mcrcon_command("list")  # Dummy command to test if the server is running
@@ -54,3 +52,6 @@ class Server:
             self.process.wait()
 
             self.is_server_running = False
+
+
+server: Server = Server(config.SERVER_CONFIG)
