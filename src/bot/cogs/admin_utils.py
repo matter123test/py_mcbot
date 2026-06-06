@@ -19,6 +19,7 @@ class AdminUtils(commands.Cog):
     @commands.command(name="exec", description="Execute a command on the minecraft server")
     async def execute_command(self, ctx: discord.ext.commands.Context):
         if ctx.author.id not in config.BOT_CONFIG.admins:
+            await ctx.send("Unauthorized access")
             return
 
         if not server.is_mcrcon_running():
