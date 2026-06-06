@@ -1,14 +1,14 @@
+import os.path
 import re
 from collections import deque
 
 from mcrcon import MCRcon
 
-from src.config import MCRCON_CONFIG
-from src.config import SERVER_CONFIG
+from src import config
 
 
 def run_mcrcon_command(command: str):
-    with MCRcon(MCRCON_CONFIG.host, MCRCON_CONFIG.password, MCRCON_CONFIG.port) as mcr:
+    with MCRcon(config.MCRCON_CONFIG.host, config.MCRCON_CONFIG.password, config.MCRCON_CONFIG.port) as mcr:
         resp = mcr.command(command)
         return resp
 
@@ -22,18 +22,35 @@ def send_message(author: str, message: str):
     run_mcrcon_command(f"say {author}: {message}")
 
 
-def get_logs(last_lines_count: int = 10) -> str:
-    with open(SERVER_CONFIG.server_logs_file_path, "r", encoding="utf-8") as f:
+def get_logs(last_lines_count: int = 10) -> str | None:
+    """
+    Gets the last 10 lines of logs
+    Note:
+        The logs are read from the log file set in the server.config.json
+    """
+    if not os.path.exists(config.SERVER_CONFIG.server_logs_file_path):
+        return None
+
+    with open(config.SERVER_CONFIG.server_logs_file_path, "r", encoding="utf-8") as f:
         # older items are automatically dropped
         last_10_lines = deque(f, maxlen=last_lines_count)
 
-    output = "".join(last_10_lines)
+    output = ''.join(last_10_lines)
 
-    return output
+    if len(output) > 0:
+        return output
+    else:
+        return None
 
 
-def get_player_messages(last_lines_count: int = 10) -> str:
-    with open(SERVER_CONFIG.server_logs_file_path, "r", encoding="utf-8") as f:
+def get_player_messages(last_lines_count: int = 10) -> str | None:
+    """
+    Gets the last 10 messages sent by players in the minecraft server chat
+    Note:
+        The messages are read from the log file set in the server.config.json
+    """
+
+    with open(config.SERVER_CONFIG.server_logs_file_path, "r", encoding="utf-8") as f:
         # Get the last lines first
         last_lines = deque(f, maxlen=last_lines_count)
 
@@ -49,7 +66,12 @@ def get_player_messages(last_lines_count: int = 10) -> str:
             content = match.group(2).strip()
             lines.append(f"{author}: {content}")
 
-    return f"```{'\n'.join(lines)}```"
+    output = '\n'.join(lines)
+
+    if len(output) > 0:
+        return output
+    else:
+        return None
 
 
 def is_server_empty() -> bool:

@@ -6,7 +6,7 @@ from discord.ext import commands
 from src import config
 from src.logger import Logger
 from src.server import server
-from src.server.utils import is_server_empty, run_mcrcon_command, get_tps, send_message, get_logs, get_player_messages
+import src.server.utils as server_utils
 
 
 class UserUtils(commands.Cog):
@@ -36,16 +36,18 @@ class UserUtils(commands.Cog):
             Logger.warn("Ignoring $stop request")
             await ctx.reply("Server is not running!")
 
-        if not is_server_empty():
+        if not server_utils.is_server_empty():
             await ctx.reply("There are players in the server!")
             return
 
+        Logger.log("Stopping the server!")
         await ctx.reply("Stopping the server!")
         server.stop()
 
         while server.is_mcrcon_running():
             await sleep(config.MCRCON_CONFIG.secondsDelay)
 
+        Logger.log("Server is now stopped!")
         await ctx.reply("Server is now stopped!")
 
     @commands.command(name="status", description="Get the minecraft server status")
@@ -60,7 +62,7 @@ class UserUtils(commands.Cog):
         if not server.is_mcrcon_running():
             await ctx.send("Server is not running!")
         else:
-            output = run_mcrcon_command("list")
+            output = server_utils.run_mcrcon_command("list")
             await ctx.send(f"```{output}```")
 
     @commands.command(name="tps", description="Get the current ticks per second in the minecraft server")
@@ -68,7 +70,7 @@ class UserUtils(commands.Cog):
         if not server.is_mcrcon_running():
             await ctx.send("Server is not running!")
         else:
-            await ctx.send(get_tps())
+            await ctx.send(server_utils.get_tps())
 
     @commands.command(name="say", description="Sends a message to the minecraft server chat")
     async def send_message(self, ctx: discord.ext.commands.Context):
@@ -78,19 +80,27 @@ class UserUtils(commands.Cog):
             author = ctx.author.name
             message = ' '.join(ctx.message.content.split(" ")[1:])
 
-            send_message(author, message)
+            server_utils.send_message(author, message)
 
             await ctx.reply("Message sent!")
 
     @commands.command(name="logs", description="Get the first 10 lines of the minecraft server logs")
     async def get_logs(self, ctx: discord.ext.commands.Context):
-        output = get_logs()
-        await ctx.send(output)
+        output = server_utils.get_logs()
+
+        if output is not None:
+            await ctx.send(f"```{output}```")
+        else:
+            await ctx.send("Logs are empty!")
 
     @commands.command(name="chat", description="Get the first 10 lines of player messages in the minecraft server chat")
     async def chat(self, ctx: discord.ext.commands.Context):
-        output = get_player_messages()
-        await ctx.send(output)
+        output = server_utils.get_player_messages()
+
+        if output is not None:
+            await ctx.send(f"```{output}```")
+        else:
+            await ctx.send("Chat is empty!")
 
 
 async def setup(bot: discord.ext.commands.Bot):
