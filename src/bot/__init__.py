@@ -5,39 +5,45 @@ from src import config
 from src.bot.utils import set_server_status, MinecraftServerStatus
 from src.logger import Logger
 
-intents = discord.Intents.default()
-intents.message_content = True
 
-bot = commands.Bot(command_prefix="$", intents=intents, help_command=None)
+class Bot(commands.Bot):
+    def __init__(self):
+        intents = discord.Intents.default()
+        intents.message_content = True
+
+        super().__init__(command_prefix="$", intents=intents, help_command=None)
+
+    async def on_ready(self):
+        print(f"Logged on as {self.user}")
+        await set_server_status(self, MinecraftServerStatus.OFFLINE)
+
+    async def setup_hook(self) -> None:
+        cogs = [
+            "help",
+            "admin_utils",
+            "user_utils"
+        ]
+
+        for cog in cogs:
+            cog_name = f"src.bot.cogs.{cog}"
+
+            Logger.log(f"Loading {cog_name}")
+            await self.load_extension(cog_name)
+
+    async def on_message(self, message):
+        if message.author == self.user:
+            return
+
+        await self.process_commands(message)
+
+    async def close(self) -> None:
+        Logger.log("Bot has been closed!")
+
+        await super().close()
 
 
-async def load_extensions():
-    cogs = [
-        "help",
-        "admin_utils",
-        "user_utils"
-    ]
-
-    for cog in cogs:
-        await bot.load_extension(f"src.bot.cogs.{cog}")
-
-
-async def main():
+def main():
     Logger.log("Bot is now running!")
 
-    async with bot:
-        await load_extensions()
-        await bot.start(config.BOT_CONFIG.token)
-
-
-@bot.event
-async def on_ready():
-    print(f"Logged on as {bot.user}")
-    await set_server_status(bot, MinecraftServerStatus.OFFLINE)
-
-@bot.event
-async def on_message(message):
-    if message.author == bot.user:
-        return
-
-    await bot.process_commands(message)
+    bot = Bot()
+    bot.run(config.BOT_CONFIG.token)
