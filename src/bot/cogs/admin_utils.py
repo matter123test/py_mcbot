@@ -4,6 +4,8 @@ import discord
 from discord.ext import commands
 
 from src import config
+from src.bot import set_server_status, MinecraftServerStatus
+from src.bot.check_utils import is_server_running, is_user_id_admin
 from src.server import server, run_mcrcon_command
 
 
@@ -17,30 +19,18 @@ class AdminUtils(commands.Cog):
         self.bot = bot
 
     @commands.command(name="exec", description="Execute a command on the minecraft server")
+    @is_user_id_admin()
+    @is_server_running(server)
     async def execute_command(self, ctx: discord.ext.commands.Context):
-        if ctx.author.id not in config.BOT_CONFIG.admins:
-            await ctx.send("Unauthorized access")
-            return
-
-        if not server.is_mcrcon_running():
-            await ctx.send("Server is not running!")
-            return
-
         cmd_to_run = ' '.join(ctx.message.content.split(' ')[1:])
         output = run_mcrcon_command(cmd_to_run)
 
         await ctx.send(output)
 
     @commands.command(name="forcestop", description="Stop the minecraft server even if there are players")
+    @is_user_id_admin()
+    @is_server_running(server)
     async def force_stop(self, ctx: discord.ext.commands.Context):
-        if ctx.author.id not in config.BOT_CONFIG.admins:
-            await ctx.send("Unauthorized access")
-            return
-
-        if not server.is_mcrcon_running():
-            await ctx.send("Server is not running!")
-            return
-
         await ctx.reply("Stopping the server!")
         server.stop()
 
@@ -48,6 +38,8 @@ class AdminUtils(commands.Cog):
             await sleep(config.MCRCON_CONFIG.secondsDelay)
 
         await ctx.reply("Server is now stopped!")
+
+        await set_server_status(self.bot, MinecraftServerStatus.OFFLINE)
 
 
 async def setup(bot: discord.ext.commands.Bot):

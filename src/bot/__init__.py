@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 
 from src import config
+from src.bot.utils import set_server_status, MinecraftServerStatus
 from src.logger import Logger
 
 intents = discord.Intents.default()
@@ -32,7 +33,7 @@ async def main():
 @bot.event
 async def on_ready():
     print(f"Logged on as {bot.user}")
-
+    await set_server_status(bot, MinecraftServerStatus.OFFLINE)
 
 @bot.event
 async def on_message(message):
