@@ -17,9 +17,11 @@ Clone the repo
 
 ``uv venv``
 
-## Create papermc server
+## Create a server
 
-``uv run python setup/setup.py``
+Note: *Supports fabric or papermc*
+
+``uv run tools\configure_server.py``
 
 After running this command it will create a folder `server`
 
@@ -89,8 +91,8 @@ Run the bot:
 
 ``uv run python run.py``
 
-
 ## Backups
+
 Backups by default will be created at `backups`
 
 To create a backup:
