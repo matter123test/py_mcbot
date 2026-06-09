@@ -10,7 +10,7 @@ from setup.api import LoaderAPI
 from setup.api.loaders.fabricmc import FabricMC
 from setup.api.loaders.papermc import PaperMC
 
-D_SERVER_FOLDER_PATH = 'test'
+D_SERVER_FOLDER_PATH = 'server'
 D_SERVER_FILENAME = 'server.jar'
 
 
