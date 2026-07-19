@@ -1,6 +1,7 @@
 import json
 from dataclasses import dataclass
-
+import os
+from src.logger import Logger
 
 @dataclass(frozen=True)
 class ServerConfig:
@@ -15,5 +16,12 @@ def get_server_config(path: str) -> ServerConfig:
     server_path = data["server_path"]
     server_logs_file_path = data["server_logs_file_path"]
     run = data["run"]
+
+    # Check if the entries exists
+    if not os.path.exists(server_path):
+        Logger.err("server_path does not exist!")
+
+    if not os.path.exists(server_logs_file_path):
+        Logger.err("server_logs_file_path does not exist!")
 
     return ServerConfig(server_path, server_logs_file_path, run)
