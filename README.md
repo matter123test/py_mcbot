@@ -28,46 +28,26 @@ After running this command it will create a folder `server`
 Make sure to accept the Eula in `server/eula.txt`
 
 ## Configuration
+Create a file named config.toml
+```toml
+[bot]
+token = "" # discord bot token
+guild = 123456 # discord server id
+# discord users that are allowed to use admin commands
+admins = [123456]
 
-Create a folder name "config"
+[server]
+folder = "path to server folder"
+log = "path to latest.log file"
+# minimal server run command args
+run = ["java", "-Xmx3G", "-jar", "server.jar", "nogui"] 
 
-`bot.config.json` example:
-
-```json5
-{
-  "token": "bot_token",
-  "admins": [
-    // example 699192312391
-  ]
-}
-```
-
-`mcrcon.config.json` example:
-
-```json
-{
-  "host": "localhost",
-  "password": "1234",
-  "port": 25575,
-  "seconds_delay": 1
-}
-```
-
-`server.config.json` example:
-
-```json5
-{
-  "server_path": "server folder",
-  "server_logs_file_path": "server folder/latest.log",
-  // Example command
-  "run": [
-    "java",
-    "-Xmx3G",
-    "-jar",
-    "server.jar",
-    "nogui"
-  ]
-}
+# mcrcon is required to comunicate with the server
+[server.mcrcon]
+host = "localhost"
+password = "1234"
+port = 25575
+delay_seconds = 1
 ```
 
 Inside the server folder modify the `server.properties`
@@ -89,7 +69,7 @@ online-mode=false
 
 Run the bot:
 
-``uv run python run.py``
+``uv run run.py``
 
 ## Backups
 
