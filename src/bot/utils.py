@@ -1,6 +1,7 @@
 from enum import Enum
 import bot
 import discord
+import asyncio
 
 
 class MCServerStatus(Enum):
@@ -36,3 +37,28 @@ class MCBotUtils:
                 name=status_text, type=discord.ActivityType.custom
             ),
         )
+
+    @staticmethod
+    async def start_command(bot: bot.Bot, itn: discord.Interaction):
+        bot.server.start()
+        await itn.response.send_message("Starting the server!")
+        await bot.utils.set_server_status(MCServerStatus.STARTING)
+
+        while not bot.server.rcon.is_running():
+            await asyncio.sleep(bot.config.mcrcon.delay_seconds)
+
+        await itn.followup.send("Server is now online!")
+        await bot.utils.set_server_status(MCServerStatus.ONLINE)
+
+    @staticmethod
+    async def stop_command(bot: bot.Bot, itn: discord.Interaction):
+        await itn.response.send_message("Stopping the server!")
+        await bot.utils.set_server_status(MCServerStatus.STOPPING)
+
+        bot.server.stop()
+
+        while bot.server.rcon.is_running():
+            await asyncio.sleep(bot.config.mcrcon.delay_seconds)
+
+        await itn.followup.send("Server is now offline!")
+        await bot.utils.set_server_status(MCServerStatus.OFFLINE)
