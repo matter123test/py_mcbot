@@ -1,9 +1,7 @@
-import subprocess
 from config import Config
 from server.rcon import MCServerRcon
-import os
 from collections import deque
-import re
+import subprocess, os, re
 
 
 class MCServer:

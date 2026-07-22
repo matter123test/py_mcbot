@@ -1,5 +1,6 @@
 from discord.ext import commands
 from server import MCServer
+from bot.utils import MCBotUtils, MCServerStatus
 import discord
 import config
 
@@ -13,6 +14,7 @@ class Bot(commands.Bot):
     ):
         self.config = config
         self.server = MCServer(self.config)
+        self.utils = MCBotUtils(self)
 
         super().__init__(command_prefix=prefix, intents=intents)
 
@@ -25,6 +27,8 @@ class Bot(commands.Bot):
 
     async def on_ready(self):
         print(f"Logged in as {self.user}")
+        
+        await self.utils.set_server_status(MCServerStatus.OFFLINE)
 
     async def on_close(self):
         await super().close()

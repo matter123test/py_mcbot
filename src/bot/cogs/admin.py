@@ -4,6 +4,7 @@ import discord
 import bot
 from server.helpers import MCServerHelpers
 import asyncio
+from bot.utils import MCServerStatus
 
 
 class Admin(commands.Cog):
@@ -43,6 +44,7 @@ class Admin(commands.Cog):
             return
 
         await itn.response.send_message("Stopping the server!")
+        await self.bot.utils.set_server_status(MCServerStatus.STOPPING)
 
         self.bot.server.stop()
 
@@ -50,6 +52,7 @@ class Admin(commands.Cog):
             await asyncio.sleep(self.bot.config.mcrcon.delay_seconds)
 
         await itn.followup.send("Server is now offline!")
+        await self.bot.utils.set_server_status(MCServerStatus.OFFLINE)
 
 
 async def setup(bot: bot.Bot):

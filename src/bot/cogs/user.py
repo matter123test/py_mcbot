@@ -4,6 +4,7 @@ import discord
 import bot
 import asyncio
 from server.helpers import MCServerHelpers
+from bot.utils import MCServerStatus
 import re
 
 
@@ -21,11 +22,13 @@ class User(commands.Cog):
 
         self.bot.server.start()
         await itn.response.send_message("Starting the server!")
+        await self.bot.utils.set_server_status(MCServerStatus.STARTING)
 
         while not self.bot.server.rcon.is_running():
             await asyncio.sleep(self.bot.config.mcrcon.delay_seconds)
 
         await itn.followup.send("Server is now online!")
+        await self.bot.utils.set_server_status(MCServerStatus.ONLINE)
 
     @app_commands.command(name="stop", description="Stop the minecraft server")
     async def stop(self, itn: discord.Interaction):
@@ -36,6 +39,7 @@ class User(commands.Cog):
             return
 
         await itn.response.send_message("Stopping the server!")
+        await self.bot.utils.set_server_status(MCServerStatus.STOPPING)
 
         self.bot.server.stop()
 
@@ -43,6 +47,7 @@ class User(commands.Cog):
             await asyncio.sleep(self.bot.config.mcrcon.delay_seconds)
 
         await itn.followup.send("Server is now offline!")
+        await self.bot.utils.set_server_status(MCServerStatus.OFFLINE)
 
     @app_commands.command(name="status", description="Get the minecraft server status")
     async def get_server_status(self, itn: discord.Interaction):
