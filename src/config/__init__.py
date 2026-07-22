@@ -1,12 +1,26 @@
-from src.config.globals import BOT_CONFIG_FILE_PATH, SERVER_CONFIG_FILE_PATH
-from src.config.globals import MCRCON_CONFIG_FILE_PATH
-from src.config.parsers.bot import get_bot_config
-from src.config.parsers.mcrcon import get_mcrcon_config
-from src.config.parsers.server import get_server_config
-from src.config.utils import check_files
+from config.objects import *
+import tomllib
 
-check_files()
 
-BOT_CONFIG = get_bot_config(BOT_CONFIG_FILE_PATH)
-SERVER_CONFIG = get_server_config(SERVER_CONFIG_FILE_PATH)
-MCRCON_CONFIG = get_mcrcon_config(MCRCON_CONFIG_FILE_PATH)
+def load_config_from_file(filename: str) -> Config:
+    with open(filename, "rb") as f:
+        data = tomllib.load(f)
+
+    bot = Bot(
+        data["bot"]["token"],
+        discord.Object(data["bot"]["guild"]),
+        data["bot"]["admins"],
+    )
+    server = Server(
+        data["server"]["folder"], data["server"]["log"], data["server"]["run"]
+    )
+
+    mcrcon = data["server"]["mcrcon"]
+    mcrcon = MCRcon(
+        mcrcon["host"],
+        mcrcon["password"],
+        mcrcon["port"],
+        mcrcon["delay_seconds"],
+    )
+
+    return Config(bot, server, mcrcon)

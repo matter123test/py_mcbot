@@ -1,6 +1,7 @@
 .venv
 /config/
-uv.lock
 .idea
 /server/
 /backups/
+__pycache__
+config.toml
