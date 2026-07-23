@@ -1,6 +1,6 @@
 ## py_mcbot
 
-This is a simple discord bot to control a minecraft server
+This is a discord bot to control a minecraft server
 
 ![](icon.png "py_mcbot icon")
 
@@ -31,13 +31,17 @@ Make sure to accept the Eula in `server/eula.txt`
 Create a file named config.toml
 ```toml
 [bot]
-token = "" # discord bot token
-guild = 123456 # discord server id
-# discord users that are allowed to use admin commands
+# discord bot token
+token = "" 
+# discord server id
+# this is required to synchronize slash commands faster
+guild = 123456 
+# discord users that are allowed to use admin commands such as /exec
 admins = [123456]
 
 [server]
-folder = "path to server folder"
+# example: "C:/Users/user/Desktop/server"
+folder = "path to server folder" 
 log = "path to latest.log file"
 # minimal server run command args
 run = ["java", "-Xmx3G", "-jar", "server.jar", "nogui"] 
@@ -52,6 +56,8 @@ delay_seconds = 1
 
 Inside the server folder modify the `server.properties`
 and set the values:
+
+Note: these values must match with the config.toml's mcrcon configuration
 
 ```properties
 enable-rcon=true
@@ -78,3 +84,26 @@ Backups by default will be created at `backups`
 To create a backup:
 
 ``uv run tools\backup.py``
+
+
+## Commands
+User commands:
+
+Name          | Description   | Args
+------------- | ------------- | -------------
+/start  | Start the minecraft server
+/stop  | Stop the minecraft server
+/status | Get the minecraft server status
+/players | Get the online players in the minecraft server
+/tps | Get the current ticks per second in the minecraft server
+/say | Sends a message to the minecraft server chat | message
+/logs | Get the last 10 lines of the minecraft server logs file
+/chat | Get the last 10 lines of player messages in the minecraft server chat
+
+Admin commands:
+
+Name          | Description   | Args
+------------- | ------------- | -------------
+/exec | Execute a command on the minecraft server | command
+/forcestop | Stop the minecraft server even if there are players
+
