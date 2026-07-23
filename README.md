@@ -15,8 +15,6 @@ Clone the repo
 
 ``cd py_mcbot``
 
-``uv venv``
-
 ## Create a server
 
 Note: *Supports fabric or papermc*
