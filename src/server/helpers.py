@@ -41,5 +41,5 @@ class MCServerHelpers:
         if itn.user.id in server.config.bot.admins:
             return True
         else:
-            await itn.response.send_message("Unauthorized access")
+            await itn.response.send_message("Unauthorized access", ephemeral=True)
             return False

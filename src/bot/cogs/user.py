@@ -2,7 +2,6 @@ from discord.ext import commands
 from discord import app_commands
 import discord
 import bot
-import asyncio
 from server.helpers import MCServerHelpers
 from bot.utils import MCBotUtils
 import re
