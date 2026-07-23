@@ -28,7 +28,12 @@ class PaperMC(LoaderAPI):
         return versions
 
     def get_latest_build_download_url(self, game_version: str):
-        url = self.server_url + "v3/projects/paper/versions/" + game_version + "/builds/latest"
+        url = (
+            self.server_url
+            + "v3/projects/paper/versions/"
+            + game_version
+            + "/builds/latest"
+        )
 
         res = requests.get(url)
         data = res.json()
