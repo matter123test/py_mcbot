@@ -18,7 +18,7 @@ class Admin(commands.Cog):
     )
     @app_commands.describe(command="The command you want to run")
     async def execute_command(self, itn: discord.Interaction, command: str):
-        if not await MCServerHelpers.ensure_user_is_admin(self.bot.server, itn):
+        if await MCServerHelpers.ensure_user_is_admin(self.bot.server, itn):
             return
 
         if await MCServerHelpers.ensure_server_is_not_running(self.bot.server, itn):
@@ -36,7 +36,7 @@ class Admin(commands.Cog):
         description="Stop the minecraft server even if there are players",
     )
     async def force_stop(self, itn: discord.Interaction):
-        if not await MCServerHelpers.ensure_user_is_admin(self.bot.server, itn):
+        if await MCServerHelpers.ensure_user_is_admin(self.bot.server, itn):
             return
 
         if await MCServerHelpers.ensure_server_is_not_running(self.bot.server, itn):

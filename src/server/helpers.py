@@ -39,7 +39,7 @@ class MCServerHelpers:
     @staticmethod
     async def ensure_user_is_admin(server: server.MCServer, itn: discord.Interaction):
         if itn.user.id in server.config.bot.admins:
-            return True
+            return False
         else:
             await itn.response.send_message("Unauthorized access", ephemeral=True)
-            return False
+            return True
