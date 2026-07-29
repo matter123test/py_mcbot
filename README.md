@@ -83,6 +83,22 @@ To create a backup:
 
 ``uv run tools\backup.py``
 
+``example: uv run tools\backup.py -n before_explosion.zip``
+
+```txt
+usage: Backup tool [-h] [-n NAME] [-f BACKUP_FOLDER] [-w WORLD_FOLDER]
+
+Creates backups from world folder
+
+options:
+  -h, --help            show this help message and exit
+  -n, --name NAME       name of the output file
+  -f, --backup_folder BACKUP_FOLDER
+                        specify the output backups folder
+  -w, --world-folder WORLD_FOLDER
+                        specify where the world folder is located
+```
+
 
 ## Commands
 User commands:
