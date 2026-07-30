@@ -75,7 +75,7 @@ class User(commands.Cog):
         author = itn.user.name
         self.bot.server.send_message(f"{author}: {message}")
 
-        await itn.response.send_message("Message sent!")
+        await itn.response.send_message(f"Message `{message}` sent!")
 
     @app_commands.command(
         name="logs",

@@ -19,11 +19,15 @@ class Bot(commands.Bot):
         super().__init__(command_prefix=prefix, intents=intents)
 
     async def setup_hook(self):
+        # Clear old registered commands just in case
+        self.tree.clear_commands(guild=self.config.bot.guild)
+
         await self.load_extension("bot.cogs.user")
         await self.load_extension("bot.cogs.admin")
 
         self.tree.copy_global_to(guild=self.config.bot.guild)
         await self.tree.sync(guild=self.config.bot.guild)
+        print(f"Registered {len(self.tree.get_commands())} commands!")
 
     async def on_ready(self):
         print(f"Logged in as {self.user}")
