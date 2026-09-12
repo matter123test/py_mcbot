@@ -12,8 +12,20 @@ def load_config_from_file(filename: str) -> Config:
         discord.Object(data["bot"]["guild"]),
         data["bot"]["admins"],
     )
+
+    # Optional info
+    server_info = None
+    try:
+        server_info = Server.Info(
+            data["server"]["info"]["name"],
+            data["server"]["info"]["version"]
+        )
+    except Exception:
+        pass
+
     server = Server(
-        data["server"]["folder"], data["server"]["log"], data["server"]["run"]
+        data["server"]["folder"], data["server"]["log"], data["server"]["run"],
+        server_info
     )
 
     mcrcon = data["server"]["mcrcon"]

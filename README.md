@@ -50,6 +50,11 @@ host = "localhost"
 password = "1234"
 port = 25575
 delay_seconds = 1
+
+# Optional:
+[server.info]
+name = "Richard's server"
+version = "26.1.2"
 ```
 
 Inside the server folder modify the `server.properties`
@@ -120,4 +125,6 @@ Name          | Description   | Args
 ------------- | ------------- | -------------
 /exec | Execute a command on the minecraft server | command
 /forcestop | Stop the minecraft server even if there are players
+/info | Get the minecraft server information
+
 

@@ -101,6 +101,22 @@ class User(commands.Cog):
         else:
             await interaction.response.send_message("Chat is empty!")
 
+    @app_commands.command(
+        name="info",
+        description="Get the minecraft server information"
+    )
+    async def info(self, itn: discord.Interaction):
+        output = self.bot.config.server.info
+
+        if output is not None:
+            await itn.response.send_message(
+                f"Server info:\n"\
+                f"name: {output.name}\n"\
+                f"version: {output.version}\n"
+            )
+        else:
+            await itn.response.send_message("No server info to show!")
+
 
 async def setup(bot: bot.Bot):
     await bot.add_cog(User(bot))

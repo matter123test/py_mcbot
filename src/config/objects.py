@@ -21,6 +21,18 @@ class Server:
     folder: str
     log: str
     run: list[str]
+    info: Info | None
+
+    @dataclass
+    class Info:
+        name: str
+        version: str
+
+        def __repr__(self) -> str:
+            return f"---Server Info---\n"\
+                   f"name: {self.name}\n"\
+                   f"version: {self.version}\n"\
+                   f"---Server Info---\n"
 
     def __repr__(self) -> str:
         return f"---Server---\n"\
@@ -55,5 +67,6 @@ class Config:
         return(
             f"{str(self.bot)}"\
             f"{str(self.server)}"\
+            f"{str(self.server.info)}"\
             f"{str(self.mcrcon)}"
         )
