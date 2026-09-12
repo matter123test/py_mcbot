@@ -12,6 +12,8 @@ if __name__ == "__main__":
     config = load_config_with_validation(CONFIG_FILE)
 
     if config:
+        print(config)
+
         intents = discord.Intents.default()
         bot = Bot(prefix="$", intents=intents, config=config)
         bot.run(config.bot.token)
