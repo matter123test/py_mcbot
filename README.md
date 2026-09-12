@@ -118,6 +118,8 @@ Name          | Description   | Args
 /say | Sends a message to the minecraft server chat | message
 /logs | Get the last 10 lines of the minecraft server logs file
 /chat | Get the last 10 lines of player messages in the minecraft server chat
+/info | Get the minecraft server information
+
 
 Admin commands:
 
@@ -125,6 +127,4 @@ Name          | Description   | Args
 ------------- | ------------- | -------------
 /exec | Execute a command on the minecraft server | command
 /forcestop | Stop the minecraft server even if there are players
-/info | Get the minecraft server information
-
 
