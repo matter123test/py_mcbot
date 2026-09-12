@@ -5,10 +5,18 @@ sys.path.append(os.path.join(os.path.dirname(__file__), "src"))
 from config import load_config_with_validation
 from bot import Bot
 import discord
+import subprocess
 
 CONFIG_FILE = "config.toml"
 
 if __name__ == "__main__":
+    # Check if java exists
+    try:
+        output = subprocess.run(["java", "-version"])
+    except FileNotFoundError:
+        print("Java not found!")
+        quit()
+
     config = load_config_with_validation(CONFIG_FILE)
 
     if config:
