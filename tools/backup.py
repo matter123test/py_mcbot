@@ -8,6 +8,10 @@ console = Console()
 
 from argparse import ArgumentParser
 
+# Defaults
+SERVER_FOLDER = "server"
+WORLD_FOLDER = os.path.join(SERVER_FOLDER, "world")
+BACKUPS_FOLDER = "backups"
 
 def main():
     parser = ArgumentParser(
@@ -19,13 +23,19 @@ def main():
         "-f",
         "--backup_folder",
         help="specify the output backups folder",
-        default="backups",
+        default=BACKUPS_FOLDER,
     )
     parser.add_argument(
         "-w",
         "--world-folder",
         help="specify where the world folder is located",
-        default="server/world",
+        default=WORLD_FOLDER,
+    )
+
+    parser.add_argument(
+        "--full",
+        help="Create a full backup of the server root folder",
+        action="store_true"
     )
 
     args = parser.parse_args()
@@ -36,14 +46,22 @@ def main():
     else:
         archive_name = os.path.join(args.backup_folder, archive_name)
 
-    with console.status("[bold yellow]Creating backup..."):
+    world_folder = args.world_folder
+
+    if args.full:
+        split = os.path.split(world_folder)
+        path = split[0:len(split) - 1]
+        world_folder = os.path.join(*path)
+
+
+    with console.status(f"[bold yellow]Creating {"full " if args.full else ''}backup..."):
         make_backup(
             archive_name=archive_name,
             backups_folder=args.backup_folder,
-            world_folder=args.world_folder,
+            world_folder=world_folder,
         )
 
-    console.print(f"[bold green]Created backup at {archive_name}")
+    console.print(f"[bold green]Created {"full " if args.full else ''}backup at {archive_name}")
 
 
 def get_archive_name(backups_folder: str) -> str:
