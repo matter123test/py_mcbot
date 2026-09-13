@@ -89,9 +89,10 @@ To create a backup:
 ``uv run tools\backup.py``
 
 ``example: uv run tools\backup.py -n before_explosion.zip``
+``example: uv run tools\backup.py --full -n full_server_backup -b backups``
 
 ```txt
-usage: Backup tool [-h] [-n NAME] [-f BACKUP_FOLDER] [-w WORLD_FOLDER]
+usage: Backup tool [-h] [-n NAME] [-f BACKUP_FOLDER] [-w WORLD_FOLDER] [--full]
 
 Creates backups from world folder
 
@@ -102,6 +103,7 @@ options:
                         specify the output backups folder
   -w, --world-folder WORLD_FOLDER
                         specify where the world folder is located
+  --full                Create a full backup of the server root folder
 ```
 
 
