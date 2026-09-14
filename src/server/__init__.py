@@ -2,6 +2,7 @@ from config import Config
 from server.rcon import MCServerRcon
 from collections import deque
 import subprocess, os, re
+from server.backup import BackupSystem
 
 
 class MCServer:
@@ -11,6 +12,8 @@ class MCServer:
 
         self.is_running = False
         self.process: subprocess.Popen
+
+        self.backup_system = BackupSystem()
 
     def start(self) -> None:
         if self.is_running:
@@ -41,6 +44,9 @@ class MCServer:
         print("Stopped the process")
 
         self.is_running = False
+
+        # TODO: backups should occur here
+        self.backup_system.create_backup()
 
     def get_status(self) -> bool:
         return self.is_running

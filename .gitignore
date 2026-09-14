@@ -5,3 +5,4 @@
 /backups/
 __pycache__
 config.toml
+backups.json

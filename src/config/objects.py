@@ -23,6 +23,13 @@ class Server:
     run: list[str]
     info: Info | None
 
+    def __repr__(self) -> str:
+        return f"---Server---\n"\
+               f"folder: {self.folder}\n"\
+               f"log: {self.folder}\n"\
+               f"run: {self.run}\n"\
+               f"---Server---\n"
+
     @dataclass
     class Info:
         name: str
@@ -33,14 +40,7 @@ class Server:
                    f"name: {self.name}\n"\
                    f"version: {self.version}\n"\
                    f"---Server Info---\n"
-
-    def __repr__(self) -> str:
-        return f"---Server---\n"\
-               f"folder: {self.folder}\n"\
-               f"log: {self.folder}\n"\
-               f"run: {self.run}\n"\
-               f"---Server---\n"
-
+                
 @dataclass
 class MCRcon:
     host: str
