@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 import discord
+from enum import Enum
 
 
 @dataclass
@@ -22,6 +23,7 @@ class Server:
     log: str
     run: list[str]
     info: Info | None
+    backups: Backups | None
 
     def __repr__(self) -> str:
         return f"---Server---\n"\
@@ -40,7 +42,35 @@ class Server:
                    f"name: {self.name}\n"\
                    f"version: {self.version}\n"\
                    f"---Server Info---\n"
-                
+
+    @dataclass
+    class Backups:
+        max_backups: int
+        save_file: str
+
+        world_folder: str
+        backups_folder: str
+
+        archive_type: Server.Backups.ArchiveType 
+
+        class ArchiveType(Enum):
+            ZIP="zip"
+            TAR="tar"
+            GZTAR="gztar"
+            BZTAR="bztar"
+            XZTAR="xztar"
+            ZSTDTAR="zstdtar"
+
+        def __repr__(self) -> str:
+            return f"---Backups---\n"\
+                   f"max_backups: {self.max_backups}"\
+                   f"save_file: {self.save_file}"\
+                   f"world_folder: {self.world_folder}"\
+                   f"backups_folder: {self.backups_folder}"\
+                   f"archive_type: {self.archive_type.value}"\
+                   f"---Backups---\n"
+                   
+
 @dataclass
 class MCRcon:
     host: str
@@ -68,5 +98,6 @@ class Config:
             f"{str(self.bot)}"\
             f"{str(self.server)}"\
             f"{str(self.server.info)}"\
+            f"{str(self.server.backups)}"\
             f"{str(self.mcrcon)}"
         )

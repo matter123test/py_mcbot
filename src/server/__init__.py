@@ -13,7 +13,10 @@ class MCServer:
         self.is_running = False
         self.process: subprocess.Popen
 
-        self.backup_system = BackupSystem()
+        self.backup_system: None | BackupSystem = None
+
+        if self.config.server.backups is not None:
+            self.backup_system = BackupSystem(self.config.server.backups)
 
     def start(self) -> None:
         if self.is_running:
@@ -45,8 +48,8 @@ class MCServer:
 
         self.is_running = False
 
-        # TODO: backups should occur here
-        self.backup_system.create_backup()
+        if self.backup_system is not None:
+            self.backup_system.create_backup()
 
     def get_status(self) -> bool:
         return self.is_running

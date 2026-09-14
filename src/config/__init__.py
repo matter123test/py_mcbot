@@ -23,9 +23,23 @@ def load_config_from_file(filename: str) -> Config:
     except Exception:
         pass
 
+    # Optional, backups are enabled only if its enabled
+    backups = None
+    try:
+        backups = Server.Backups(
+            data["server"]["backup"]["max_backups"],
+            data["server"]["backup"]["save_file"],
+            data["server"]["backup"]["world_folder"],
+            data["server"]["backup"]["backups_folder"],
+            Server.Backups.ArchiveType(data["server"]["backup"]["archive_type"]),                        
+        )
+    except Exception:
+        pass
+
     server = Server(
         data["server"]["folder"], data["server"]["log"], data["server"]["run"],
-        server_info
+        server_info,
+        backups
     )
 
     mcrcon = data["server"]["mcrcon"]
@@ -55,4 +69,7 @@ def load_config_with_validation(filename: str) -> Config | None:
         print(f"CONFIG: logs file `{config.server.log}` does not exist!")
         return None
 
+
+    # TODO: add basic validation to backup configuration
+    
     return config
