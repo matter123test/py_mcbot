@@ -140,3 +140,11 @@ Name          | Description   | Args
 /exec | Execute a command on the minecraft server | command
 /forcestop | Stop the minecraft server even if there are players
 
+<br>
+<br>
+
+# Special Thanks
+
+Testers:
+- [LukeGf11](https://github.com/Lukegf11)
+- [.b0rtz_](https://github.com/dr-miami)
