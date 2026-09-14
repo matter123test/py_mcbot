@@ -55,6 +55,16 @@ delay_seconds = 1
 [server.info]
 name = "Richard's server"
 version = "26.1.2"
+
+# Remove this section if you want to remove backups
+[server.backup]
+max_backups = 5
+# Default read/write file for backups
+save_file = "backups.json"
+world_folder = "server/world" # Target folder to backup
+backups_folder = "backups"
+# Examples: zip, tar, gztar, bztar, xztar zstdtar
+archive_type = "zip"
 ```
 
 Inside the server folder modify the `server.properties`
