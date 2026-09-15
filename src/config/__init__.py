@@ -69,7 +69,13 @@ def load_config_with_validation(filename: str) -> Config | None:
         print(f"CONFIG: logs file `{config.server.log}` does not exist!")
         return None
 
+    if config.server.backups:
+        if not os.path.exists(config.server.backups.world_folder):
+            print(f"CONFIG: world folder {config.server.backups.world_folder} does not exist!")
+            return None
 
-    # TODO: add basic validation to backup configuration
-    
+        # Valid archive types
+        if config.server.backups.archive_type in ["zip", "tar", "gztar", "bztar", "xztar", "zstdtar"]:
+            return None
+
     return config
