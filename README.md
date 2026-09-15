@@ -132,6 +132,7 @@ Name          | Description   | Args
 /chat | Get the last 10 lines of player messages in the minecraft server chat
 /info | Get the minecraft server information
 
+<br>
 
 Admin commands:
 
@@ -141,10 +142,14 @@ Name          | Description   | Args
 /forcestop | Stop the minecraft server even if there are players
 
 <br>
-<br>
 
-# Special Thanks
 
+## Special Thanks
 Testers:
-- [LukeGf11](https://github.com/Lukegf11)
-- [.b0rtz_](https://github.com/dr-miami)
+
+<a href="https://github.com/dr-miami">
+  <img style="border-radius: 90px" src="https://github.com/dr-miami.png" width="60">
+</a>
+<a href="https://github.com/Lukegf11">
+  <img style="border-radius: 90px" src="https://github.com/LukeGf11.png" width="60">
+</a>
