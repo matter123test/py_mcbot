@@ -63,11 +63,11 @@ class Server:
 
         def __repr__(self) -> str:
             return f"---Backups---\n"\
-                   f"max_backups: {self.max_backups}"\
-                   f"save_file: {self.save_file}"\
-                   f"world_folder: {self.world_folder}"\
-                   f"backups_folder: {self.backups_folder}"\
-                   f"archive_type: {self.archive_type.value}"\
+                   f"max_backups: {self.max_backups}\n"\
+                   f"save_file: {self.save_file}\n"\
+                   f"world_folder: {self.world_folder}\n"\
+                   f"backups_folder: {self.backups_folder}\n"\
+                   f"archive_type: {self.archive_type.value}\n"\
                    f"---Backups---\n"
                    
 

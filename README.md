@@ -148,8 +148,8 @@ Name          | Description   | Args
 Testers:
 
 <a href="https://github.com/dr-miami">
-  <img style="border-radius: 90px" src="https://github.com/dr-miami.png" width="60">
+  <img style="border-radius: 90px;" src="https://github.com/dr-miami.png" width="60">
 </a>
 <a href="https://github.com/Lukegf11">
-  <img style="border-radius: 90px" src="https://github.com/LukeGf11.png" width="60">
+  <img style="border-radius: 90px;" src="https://github.com/LukeGf11.png" width="60">
 </a>
