@@ -25,17 +25,23 @@ class BackupSystem:
         self.backups: list[BackupSystem.BackupInfo] = []
 
         if os.path.exists(self.config.save_file):
-            with open(self.config.save_file, "r") as f:
-                contents = json.load(f)
+            try:
+                with open(self.config.save_file, "r") as f:
+                    contents = json.load(f)
 
-                for item in contents:
-                    self.backups.append(
-                        BackupSystem.BackupInfo(
-                            item["name"],
-                            item["full_path"],
-                            dateutil.parser.parse(item["time"]),
+                    for item in contents:
+                        self.backups.append(
+                            BackupSystem.BackupInfo(
+                                item["name"],
+                                item["full_path"],
+                                dateutil.parser.parse(item["time"]),
+                            )
                         )
-                    )
+            except json.JSONDecodeError as e:
+                # HACK: in case it fails to decode the json file
+                print(f"ERROR: Failed to parse: {self.config.save_file}")
+                print(f"JSON ERROR: {e}")
+                exit()
 
             print(f"Loaded backups save file: {self.config.save_file}")
 
